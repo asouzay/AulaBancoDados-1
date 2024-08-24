@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ListCollectionsCursor } = require('mongodb');
 const cors = require('cors');
 const app = express();
 
@@ -42,6 +42,9 @@ app.post('/matriculas', async (req, res) => {
 app.get('/matriculas', async (req, res) => {
   try {
     //complete o código
+
+    const matriculas = await collection.find().toArray();
+
     res.status(200).json(matriculas);
   } catch (err) {
     res.status(500).json({ message: 'Erro ao buscar matrículas', error: err });
@@ -56,6 +59,7 @@ app.get('/matriculas/:id', async (req, res) => {
     const newId =  new ObjectId(id);
 
     //complete o código
+
 
     if (!matricula) {
       res.status(404).json({ message: 'Matrícula não encontrada' });
@@ -75,6 +79,7 @@ app.put('/matriculas/:id', async (req, res) => {
 
     //complete o código
 
+
     if (result.matchedCount === 0) {
       res.status(404).json({ message: 'Matrícula não encontrada' });
     } else {
@@ -91,6 +96,7 @@ app.delete('/matriculas/:id', async (req, res) => {
     const newId =  new ObjectId(id);
 
     //complete o código
+
 
     if (result.deletedCount === 0) {
       res.status(404).json({ message: 'Matrícula não encontrada' });
